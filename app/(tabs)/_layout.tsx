@@ -1,37 +1,47 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import {Tabs,Redirect} from "expo-router";
+import {TabMenuType} from "@/types";
+import {TabBarIcon} from "@/components/navigation/TabBarIcon";
+import {TabBarMaterialIconsIcon} from "@/components";
+import {useTheme} from "@react-navigation/native";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+const TabsLayout = () => {
+    const theme = useTheme()
+    const tabs:TabMenuType[]=[
+        {
+            key:'chat',
+            title:'会话',
+            tabBarIcon: ({ color, focused }) => (
+                <TabBarIcon name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'} color={color} />
+            ),
+        },
+        {
+            key:'profile',
+            title:'账户',
+            tabBarIcon: ({ color, focused }) => (
+                <TabBarMaterialIconsIcon name={focused ? 'manage-accounts' : 'manage-accounts'} color={color} />
+            ),
+        }
+    ]
+    return(
+        <Tabs
+            screenOptions={{
+                // tabBarShowLabel:false,
+                tabBarActiveTintColor:theme.colors.primary
+            }}>
+            {tabs.map(tab=>{
+                return(
+                    <Tabs.Screen
+                        key={tab.key}
+                        name={tab.key}
+                        options={{
+                            headerShown:false,
+                            tabBarIcon:tab.tabBarIcon,
+                            title:tab.title,
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+                    }} />
+                )
+            })}
+        </Tabs>
+    )
 }
+export default TabsLayout
