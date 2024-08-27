@@ -15,5 +15,6 @@
     "declare.d.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-  ]
+  ],
+  "exclude": [".eslintrc.js"]
 }
