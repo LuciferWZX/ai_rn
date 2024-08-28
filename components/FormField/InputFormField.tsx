@@ -1,22 +1,21 @@
 import { ThemedText } from '../ThemedText'
 import { ThemedView } from '../ThemedView'
 import cn from 'classnames'
-import { Image, TextInput, TouchableOpacity } from 'react-native'
-import { useState } from 'react'
-import Icon from '@/assets/icons/eyes-open.svg'
-import icons from '@/constants/Icons'
+import { TextInput, TouchableOpacity } from 'react-native'
+import { ReactNode, useState } from 'react'
 import { Entypo } from '@expo/vector-icons'
 
-interface InputFormFieldProps<T> {
+interface InputFormFieldProps {
   title?: string
-  value?: T
+  value?: string
   placeholder?: string
-  onValueChange?: (value: T) => void
+  onValueChange?: (value: string) => void
   boxClassName?: string
   secureTextEntry?: boolean
+  suffix?: ReactNode
 }
-const InputFormField = <T = any,>(props: InputFormFieldProps<T>) => {
-  const { boxClassName, title, placeholder, secureTextEntry } = props
+const InputFormField = (props: InputFormFieldProps) => {
+  const { boxClassName, title, placeholder, onValueChange, suffix, secureTextEntry } = props
   const [showPassword, setShowPassword] = useState<boolean>(false)
   return (
     <ThemedView className={cn(`space-y-2`, boxClassName)}>
@@ -30,6 +29,7 @@ const InputFormField = <T = any,>(props: InputFormFieldProps<T>) => {
           style={{
             fontFamily: 'SpaceMono',
           }}
+          onChangeText={(v) => onValueChange?.(v)}
           secureTextEntry={secureTextEntry && showPassword}
           className={cn('w-full text-base flex-1 dark:text-white ')}
         />
@@ -38,6 +38,7 @@ const InputFormField = <T = any,>(props: InputFormFieldProps<T>) => {
             <Entypo name={showPassword ? 'eye' : 'eye-with-line'} size={24} color={'#374151'} />
           </TouchableOpacity>
         )}
+        {suffix}
       </ThemedView>
     </ThemedView>
   )

@@ -1,13 +1,12 @@
 import { TouchableOpacity } from 'react-native'
-import { useTheme } from '@react-navigation/native'
 import { ThemedText } from '../ThemedText'
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 import cn from 'classnames'
 import { GestureResponderEvent } from 'react-native/Libraries/Types/CoreEventTypes'
 interface ButtonProps {
   children?: ReactNode
   disabled?: boolean
-  isLoading?: boolean
+  loading?: boolean
   containerClassName?: string
   textClassName?: string
   size?: 'small' | 'medium' | 'large'
@@ -18,27 +17,40 @@ const Button = (props: ButtonProps) => {
     children,
     disabled,
     containerClassName,
-    isLoading,
+    loading,
     textClassName,
     onPress,
     size = 'medium',
   } = props
-  const { colors } = useTheme()
+  const mergedDisabled = useMemo(() => disabled || loading, [disabled, loading])
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      disabled={disabled || isLoading}
-      onPress={onPress}
-      style={{ backgroundColor: colors.primary }}
+      disabled={mergedDisabled}
+      onPress={mergedDisabled ? undefined : onPress}
+      // style={{ backgroundColor: colors.primary }}
       className={cn(
-        `rounded-xl justify-center items-center ${containerClassName ? containerClassName : ''}`,
+        ` rounded-xl justify-center items-center bg-primary`,
         {
+          'opacity-50': mergedDisabled,
           'min-h-[62px]': size === 'large',
           'min-h-[44px]': size === 'medium',
           'min-h-[32px]': size === 'small',
         },
+        containerClassName,
       )}>
-      <ThemedText className={cn(`font-bold text-lg`, textClassName)}>{children}</ThemedText>
+      <ThemedText
+        className={cn(
+          `font-bold`,
+          {
+            'text-lg px-6': size === 'large',
+            'text-md px-4': size === 'medium',
+            'text-sm px-2': size === 'small',
+          },
+          textClassName,
+        )}>
+        {children}
+      </ThemedText>
     </TouchableOpacity>
   )
 }

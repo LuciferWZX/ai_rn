@@ -2,7 +2,9 @@ import { Button, ThemedText, ThemedView } from '@/components'
 import { Image, SafeAreaView, ScrollView } from 'react-native'
 import { Images } from '@/constants'
 import { router } from 'expo-router'
+import { useState } from 'react'
 const App = () => {
+  const [isLock, setIsLock] = useState<boolean>(false)
   return (
     <ThemedView>
       <SafeAreaView>
@@ -28,7 +30,15 @@ const App = () => {
               <Button
                 containerClassName={'w-full mt-7'}
                 size={'large'}
-                onPress={() => router.push('/sign-in')}>
+                onPress={() => {
+                  if (!isLock) {
+                    router.push('/sign-in')
+                    setIsLock(true)
+                  }
+                  setTimeout(() => {
+                    setIsLock(false)
+                  }, 500)
+                }}>
                 使用户名继续
               </Button>
             </ThemedView>
