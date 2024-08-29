@@ -8,20 +8,26 @@ import { ActivityIndicator } from '@ant-design/react-native'
 import useSignIn from '@/hooks/useSignIn'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Feather } from '@expo/vector-icons'
+import MD5 from 'crypto-js/md5'
 interface LoginFormType {
   username: string
   password: string
 }
 const SignIn = () => {
-  const { getTenantInfo, getInfoLoading, domain, setDomain, canLogin } = useSignIn()
+  const { getTenantInfo, getInfoLoading, domain, setDomain, canLogin, signIn, signInLoading } =
+    useSignIn()
   const [form, setForm] = useState<LoginFormType>({
     username: '',
     password: '',
   })
-  const submit = () => {
-    console.log('sub', form)
+  const submit = async () => {
+    await signIn({
+      name: form.username,
+      password: MD5(form.password).toString(),
+      domain: domain,
+      appId: process.env.EXPO_PUBLIC_APP_ID as string,
+    })
   }
-  console.log(123, domain)
   //校验租户
   const validateTenants = async () => {
     await getTenantInfo(domain)
@@ -35,10 +41,13 @@ const SignIn = () => {
               <Image source={Images.Logo} resizeMode={'contain'} className={'h-9 w-28'} />
               <ThemedText className={'font-semibold text-2xl mt-10'}>登录到AI Agent</ThemedText>
               <InputFormField
+                enablesReturnKeyAutomatically={true}
+                enterKeyHint={'done'}
                 title={'租户'}
                 placeholder={'请输入租户'}
                 value={domain}
                 boxClassName={'mt-7'}
+                onSubmitEditing={() => validateTenants()}
                 onValueChange={(value) => setDomain(value)}
                 suffix={
                   <Button
@@ -55,6 +64,7 @@ const SignIn = () => {
                 placeholder={'请输入用户名'}
                 value={form.username}
                 boxClassName={'mt-7'}
+                enterKeyHint={'done'}
                 onValueChange={(value) => setForm({ ...form, username: value })}
               />
               <InputFormField
@@ -63,11 +73,12 @@ const SignIn = () => {
                 boxClassName={'mt-7'}
                 placeholder={'请输入密码'}
                 value={form.password}
+                enterKeyHint={'done'}
                 onValueChange={(value) => setForm({ ...form, password: value })}
               />
               <Button
                 onPress={submit}
-                disabled={!canLogin}
+                disabled={!canLogin || signInLoading}
                 containerClassName={'mt-7'}
                 size={'large'}>
                 {canLogin ? '登录' : '请验证租户'}
@@ -83,7 +94,12 @@ const SignIn = () => {
         </KeyboardAwareScrollView>
       </SafeAreaView>
 
-      <ActivityIndicator animating={getInfoLoading} toast size="large" text="验证中..." />
+      <ActivityIndicator
+        animating={getInfoLoading || signInLoading}
+        toast
+        size="large"
+        text={getInfoLoading ? '验证中...' : '登录中...'}
+      />
     </ThemedView>
   )
 }

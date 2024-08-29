@@ -1,10 +1,16 @@
 import { Button, ThemedText, ThemedView } from '@/components'
 import { Image, SafeAreaView, ScrollView } from 'react-native'
 import { Images } from '@/constants'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 import { useState } from 'react'
-const App = () => {
+import { useAppStore } from '@/stores'
+import { useShallow } from 'zustand/react/shallow'
+const Welcome = () => {
   const [isLock, setIsLock] = useState<boolean>(false)
+  const user = useAppStore(useShallow((state) => state.user))
+  if (user) {
+    return <Redirect href={'/chat'} />
+  }
   return (
     <ThemedView>
       <SafeAreaView>
@@ -48,4 +54,4 @@ const App = () => {
     </ThemedView>
   )
 }
-export default App
+export default Welcome

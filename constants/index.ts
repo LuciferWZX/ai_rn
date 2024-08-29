@@ -1,4 +1,5 @@
 import Images from './Images'
 import Icons from './Icons'
 import { Colors } from './Colors'
-export { Images, Colors, Icons }
+import { AIDarkTheme } from './Themes'
+export { Images, Colors, Icons, AIDarkTheme }

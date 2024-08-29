@@ -1,6 +1,9 @@
 import { extend, ResponseError } from 'umi-request'
 import { match } from 'ts-pattern'
-import { ResponseCode, ResponseDataType } from '@/types'
+import { BaseUser, ResponseCode, ResponseDataType } from '@/types'
+import { useAppStore } from '@/stores'
+import { Toast } from '@ant-design/react-native'
+import { AppManager } from '@/managers/AppManager'
 export interface ServerError {
   data: null
   message: string
@@ -11,7 +14,9 @@ const errorHandler = function (error: ResponseError<ServerError>) {
     if (error.data) {
       match(error.data.code).with(401, () => {
         console.log('data:401')
+        AppManager.shared.logout().then()
       })
+      Toast.show({ position: 'top', content: error.data.message })
       throw error
     }
     //从服务器返回的错误
@@ -27,9 +32,7 @@ const errorHandler = function (error: ResponseError<ServerError>) {
       }
     }
   }
-  if (error.type === 'Timeout') {
-    console.log('Timeout')
-  }
+  Toast.show({ position: 'top', content: error.message })
   throw error
 }
 const request = extend({
@@ -37,11 +40,11 @@ const request = extend({
   errorHandler: errorHandler,
 })
 request.interceptors.request.use((url, options) => {
-  // const user: BaseUser | null = StorageManager.shared.get(APP_STORAGE_KEY.enterprise_user);
+  const user: BaseUser | null = useAppStore.getState().user
   const headers: Record<string, any> = options.headers || {}
-  // if (user) {
-  //   headers['authorization'] = `Bearer ${user.accessToken}`;
-  // }
+  if (user) {
+    headers.authorization = `Bearer ${user.accessToken}`
+  }
   return {
     url,
     options: {

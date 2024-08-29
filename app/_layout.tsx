@@ -6,12 +6,14 @@ import { useEffect } from 'react'
 import 'react-native-reanimated'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { Provider } from '@ant-design/react-native'
+import useInitialApp from '@/hooks/useInitialApp'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync().then()
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
+  const { initialApp, loading, setLoading } = useInitialApp()
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     AntOutLine: require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
@@ -22,20 +24,23 @@ export default function RootLayout() {
       throw error
     }
     if (loaded) {
-      SplashScreen.hideAsync().then()
+      initialApp().finally(() => {
+        setLoading(false)
+        SplashScreen.hideAsync().then()
+      })
     }
-  }, [loaded, error])
-
-  if (!loaded && !error) {
+  }, [loaded, error, initialApp, setLoading])
+  if ((!loaded && !error) || loading) {
     return null
   }
 
   return (
-    <Provider theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <Provider theme={colorScheme === 'dark' ? { toast_fill: '#30363D' } : DefaultTheme}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name={'index'} options={{ headerShown: false }} />
           <Stack.Screen name={'(auth)'} options={{ headerShown: false }} />
+          <Stack.Screen name={'(tabs)'} options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>

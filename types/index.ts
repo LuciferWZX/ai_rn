@@ -1,3 +1,5 @@
 export * from './main'
 export * from './user'
 export * from './response'
+export * from './storage'
+export * from './agent'
