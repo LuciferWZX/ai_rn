@@ -7,6 +7,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { ResponseCode } from '@/types'
 import { FlashList } from '@shopify/flash-list'
 import dayjs from 'dayjs'
+import ChatHeader from '@/app/(tabs)/chat/ChatHeader'
 
 const ChatPage = () => {
   const [sessions] = useChatStore(useShallow((state) => [state.sessions]))
@@ -21,6 +22,7 @@ const ChatPage = () => {
   return (
     <ThemedView className={'h-full'}>
       <SafeAreaView className={'h-full '}>
+        <ChatHeader />
         <FlashList
           data={sessions}
           keyExtractor={(item) => item.sessionSn}

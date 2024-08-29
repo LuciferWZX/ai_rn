@@ -1,6 +1,6 @@
 import { ThemedView } from '../ThemedView'
 import { ThemedText } from '../ThemedText'
-import { Pressable, TouchableHighlight, TouchableOpacity, View, ViewProps } from 'react-native'
+import { Image, Pressable, View, ViewProps } from 'react-native'
 import { ReactNode } from 'react'
 import cn from 'classnames'
 import { useThemeColor } from '@/hooks/useThemeColor'
@@ -14,7 +14,6 @@ interface ListItemProps extends Omit<ViewProps, 'children'> {
 }
 const ListItem = (props: ListItemProps) => {
   const { title, lightColor, desc, style, darkColor } = props
-  const cardBackground = useThemeColor({ light: lightColor, dark: darkColor }, 'cardBackground')
   const dangerBackground = useThemeColor({ light: lightColor, dark: darkColor }, 'dangerBackground')
   return (
     <Pressable
@@ -32,11 +31,25 @@ const ListItem = (props: ListItemProps) => {
               // { backgroundColor: cardBackground },
               style,
             ]}
-            className={cn(`rounded-lg p-3`)}>
-            <View className={'flex-col gap-2 group-active:bg-red-500'}>
-              <ThemedText>{title}</ThemedText>
+            className={cn(`flex-row gap-2 items-center   rounded-lg p-3 group-active:!bg-card`)}>
+            <Image
+              className={'w-12 h-12 rounded-full'}
+              resizeMode={'cover'}
+              source={{
+                uri: 'https://img0.baidu.com/it/u=3055253293,3355745021&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1725037200&t=c967f76f8bad5d79ae0d5d77aa8a5484',
+              }}
+            />
+            <View className={`flex-col gap-2 flex-1`}>
+              <ThemedText numberOfLines={1} className={'truncate'}>
+                {title}
+                {title}
+                {title}
+                {title}
+                {title}
+                {title}
+              </ThemedText>
               <View>
-                <ThemedText className={cn('text-gray-500 text-sm')}>{desc}</ThemedText>
+                <ThemedText className={cn('opacity-50 !text-sm')}>{desc}</ThemedText>
               </View>
             </View>
           </ThemedView>

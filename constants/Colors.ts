@@ -23,7 +23,7 @@ export const Colors = {
     // background: '#151718',
     background: '#0C0A09',
     inputBackground: '#161B22',
-    cardBackground: '#0D1117',
+    cardBackground: '#252836',
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',

@@ -7,7 +7,7 @@ import 'react-native-reanimated'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { Provider } from '@ant-design/react-native'
 import useInitialApp from '@/hooks/useInitialApp'
-
+import '../global.css'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync().then()
 

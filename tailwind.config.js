@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+  presets: [require('nativewind/preset')],
   theme: {
     extend: {
       colors: {
+        card: {
+          DEFAULT: '#252836',
+        },
         primary: {
           DEFAULT: '#2563eb',
           900: '#1e3a8a',
