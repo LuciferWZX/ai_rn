@@ -3,9 +3,11 @@ import { TabMenuType } from '@/types'
 import { TabBarIcon } from '@/components/navigation/TabBarIcon'
 import { TabBarMaterialIconsIcon } from '@/components'
 import { useTheme } from '@react-navigation/native'
+import { useActiveUser } from '@/hooks/useActiveUser'
 
 const TabsLayout = () => {
   const theme = useTheme()
+  useActiveUser()
   const tabs: TabMenuType[] = [
     {
       key: 'chat',

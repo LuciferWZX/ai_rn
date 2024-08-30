@@ -1,7 +1,6 @@
 import { StorageManager } from './StorageManager'
 import { StorageKey } from '@/types'
 import { useAppStore } from '@/stores'
-import { router } from 'expo-router'
 
 export class AppManager {
   private constructor() {}
@@ -9,6 +8,5 @@ export class AppManager {
   async logout() {
     await StorageManager.shared.remove(StorageKey.user)
     useAppStore.setState({ user: null })
-    router.replace('/sign-in')
   }
 }

@@ -8,6 +8,8 @@ import { useColorScheme } from '@/hooks/useColorScheme'
 import { Provider } from '@ant-design/react-native'
 import useInitialApp from '@/hooks/useInitialApp'
 import '../global.css'
+import TabHeader from '@/components/page/tabs/TabHeader'
+import ChatSearchHeader from '@/components/page/headers/ChatSearchHeader'
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync().then()
 
@@ -40,7 +42,18 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name={'index'} options={{ headerShown: false }} />
           <Stack.Screen name={'(auth)'} options={{ headerShown: false }} />
-          <Stack.Screen name={'(tabs)'} options={{ headerShown: false }} />
+          <Stack.Screen
+            name={'(tabs)'}
+            options={{
+              header: (props) => <TabHeader {...props} />,
+            }}
+          />
+          <Stack.Screen
+            name={'chat_search'}
+            options={{
+              header: (props) => <ChatSearchHeader {...props} />,
+            }}
+          />
           <Stack.Screen name="+not-found" />
         </Stack>
       </ThemeProvider>

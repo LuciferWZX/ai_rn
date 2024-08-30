@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import { Toast } from '@ant-design/react-native'
 import { ResponseCode, StorageKey } from '@/types'
 import { useAppStore } from '@/stores'
-import { router } from 'expo-router'
+import { useNavigation } from 'expo-router'
 import { Alert } from 'react-native'
+import { CommonActions } from '@react-navigation/native'
 
 const useSignIn = () => {
   const [domain, setDomain] = useState<string>('')
   const [canLogin, setCanLogin] = useState<boolean>(false)
+  const navigation = useNavigation()
   const {
     runAsync: getTenantInfo,
     loading: getInfoLoading,
@@ -41,11 +43,16 @@ const useSignIn = () => {
           useAppStore.setState({
             user: user,
           })
-          router.dismissAll()
-          router.replace('/chat')
+
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: '(tabs)', params: { screen: 'chat' } }],
+            }),
+          )
           return
         }
-        Alert.alert('登录失败', response.message)
+        Alert.alert('登录失败', response.message, [{ text: '确定', style: 'cancel' }])
         // Toast.show({ position: 'top', content: response.message })
       },
       onError: (err) => {

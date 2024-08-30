@@ -33,7 +33,7 @@ const ListItem = (props: ListItemProps) => {
             ]}
             className={cn(`flex-row gap-2 items-center   rounded-lg p-3 group-active:!bg-card`)}>
             <Image
-              className={'w-12 h-12 rounded-full'}
+              className={'w-12 h-12 rounded-md'}
               resizeMode={'cover'}
               source={{
                 uri: 'https://img0.baidu.com/it/u=3055253293,3355745021&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1725037200&t=c967f76f8bad5d79ae0d5d77aa8a5484',
@@ -41,11 +41,6 @@ const ListItem = (props: ListItemProps) => {
             />
             <View className={`flex-col gap-2 flex-1`}>
               <ThemedText numberOfLines={1} className={'truncate'}>
-                {title}
-                {title}
-                {title}
-                {title}
-                {title}
                 {title}
               </ThemedText>
               <View>

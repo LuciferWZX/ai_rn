@@ -51,7 +51,7 @@ const SignIn = () => {
                 onValueChange={(value) => setDomain(value)}
                 suffix={
                   <Button
-                    containerClassName={cn({ 'bg-green-600': canLogin })}
+                    containerClassName={cn({ '!bg-green-600': canLogin })}
                     disabled={domain === ''}
                     loading={getInfoLoading}
                     onPress={canLogin ? undefined : validateTenants}>

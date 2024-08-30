@@ -1,7 +1,7 @@
 import { ThemedText } from '../ThemedText'
 import { ThemedView } from '../ThemedView'
 import cn from 'classnames'
-import { EnterKeyHintTypeOptions, TextInput, TouchableOpacity } from 'react-native'
+import { EnterKeyHintTypeOptions, TextInput, TouchableOpacity, View } from 'react-native'
 import { ReactNode, useState } from 'react'
 import { Entypo } from '@expo/vector-icons'
 import { useThemeColor } from '@/hooks/useThemeColor'
@@ -43,9 +43,11 @@ const InputFormField = (props: InputFormFieldProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   return (
     <ThemedView className={cn(`space-y-2`, boxClassName)}>
-      <ThemedText className={cn('text-base text-gray-400 font-medium')}>{title}</ThemedText>
-      <ThemedView
-        className={cn(`w-full h-16 px-4  border-2 rounded-2xl items-center flex-row`)}
+      {title && (
+        <ThemedText className={cn('text-base text-gray-400 font-medium mb-2')}>{title}</ThemedText>
+      )}
+      <View
+        className={cn(`w-full h-14 px-4  rounded-2xl items-center flex-row`)}
         style={[{ backgroundColor }, style]}>
         <TextInput
           enterKeyHint={enterKeyHint}
@@ -65,7 +67,7 @@ const InputFormField = (props: InputFormFieldProps) => {
           </TouchableOpacity>
         )}
         {suffix}
-      </ThemedView>
+      </View>
     </ThemedView>
   )
 }

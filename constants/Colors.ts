@@ -6,10 +6,13 @@
 const tintColorLight = '#0a7ea4'
 const tintColorDark = '#fff'
 const dangerBackgroundColorDark = '#a61d24'
+const primaryColor = '#2563eb'
 export const Colors = {
   light: {
+    primary: primaryColor,
     text: '#11181C',
     background: '#fff',
+    header: '#fff',
     inputBackground: '#fff',
     cardBackground: '#fff',
     tint: tintColorLight,
@@ -19,6 +22,8 @@ export const Colors = {
     dangerBackground: dangerBackgroundColorDark,
   },
   dark: {
+    primary: primaryColor,
+    header: '#27272a',
     text: '#ECEDEE',
     // background: '#151718',
     background: '#0C0A09',
