@@ -3,12 +3,12 @@ import { create } from 'zustand'
 
 interface ChatStoreType {
   //聊天的agent列表
-  sessions: ChatAgentType[]
+  sessions: ChatAgentType[] | null
   //查询辽阳的agent列表
   search: string
 }
 const initialState: ChatStoreType = {
-  sessions: [],
+  sessions: null,
   search: '',
 }
 const useChatStore = create<ChatStoreType & IBaseStoreAction>((set) => ({

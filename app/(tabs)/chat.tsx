@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 
 import { match } from 'ts-pattern'
 import { FontAwesomeIcon, LoadingIcon } from '@/components/navigation/TabBarIcon'
+import Empty from '../../components/Empty'
 const ChatPage = () => {
   const [sessions] = useChatStore(useShallow((state) => [state.sessions]))
   const { getSessions, getSessionsLoading, isError } = useChat({ debounceWait: 300 })
@@ -52,12 +53,10 @@ const ChatPage = () => {
             )
           })
           .otherwise(() => {
-            if (sessions.length === 0) {
-              return null
-            }
             return (
               <FlashList
-                data={sessions}
+                data={sessions ?? []}
+                // data={[]}
                 keyExtractor={(item) => item.sessionSn}
                 renderItem={({ item }) => (
                   <ListItem
@@ -67,6 +66,7 @@ const ChatPage = () => {
                 )}
                 ItemSeparatorComponent={() => <View className={'h-2'} />}
                 estimatedItemSize={200}
+                ListEmptyComponent={sessions === null ? undefined : <Empty />}
               />
             )
           })}

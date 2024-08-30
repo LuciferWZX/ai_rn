@@ -5,6 +5,7 @@ import { ResponseCode } from '@/types'
 
 const useChat = (config?: { debounceWait?: number }) => {
   const [isError, setIsError] = useState<boolean>(false)
+
   const { loading: getSessionsLoading, runAsync: getSessions } = useRequest(
     APIManagerManager.agentService.getSessions,
     {

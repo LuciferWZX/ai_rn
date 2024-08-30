@@ -8,6 +8,7 @@ import { useThemeColor } from '@/hooks/useThemeColor'
 import { NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { router, usePathname } from 'expo-router'
 import { match } from 'ts-pattern'
+import useChatStore from '@/stores/useChatStore'
 const TabHeader = (props: NativeStackHeaderProps) => {
   const { options } = props
   const [user] = useAppStore(useShallow((state) => [state.user]))
@@ -25,6 +26,7 @@ const TabHeader = (props: NativeStackHeaderProps) => {
             </View>
             <Pressable
               onPressOut={() => {
+                useChatStore.setState({ search: '' })
                 router.push('/chat_search')
               }}>
               <Feather name={'search'} color={color} size={24} />

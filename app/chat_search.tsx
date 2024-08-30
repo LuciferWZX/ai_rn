@@ -1,4 +1,4 @@
-import { Button, ListItem, ThemedText, ThemedView } from '@/components'
+import { Button, Empty, ListItem, ThemedText, ThemedView } from '@/components'
 import useChat from '@/hooks/useChat'
 import { ChatAgentType, ResponseCode } from '@/types'
 import useChatStore from '@/stores/useChatStore'
@@ -55,9 +55,6 @@ const ChatSearch = () => {
           )
         })
         .otherwise(() => {
-          if (sessions.length === 0) {
-            return null
-          }
           return (
             <FlashList
               data={sessions}
@@ -70,6 +67,7 @@ const ChatSearch = () => {
               )}
               ItemSeparatorComponent={() => <View className={'h-2'} />}
               estimatedItemSize={200}
+              ListEmptyComponent={<Empty title={keywords ? undefined : '请输入名称查询'} />}
             />
           )
         })}
